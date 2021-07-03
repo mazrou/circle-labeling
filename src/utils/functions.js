@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
 import { StransitionText } from './StransitionText';
 import { Algo2 } from './Algo2'
-import { colors } from '@material-ui/core';
-import { transition } from 'd3';
+
+
 
 const pie = d3.pie()
     .sort(null)
@@ -24,7 +24,7 @@ const outerArc = d3.arc()
     .innerRadius(radius * 0.9)
     .outerRadius(radius * 0.9);
 
-const midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2
+export const midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2
 
 
 /*
@@ -327,7 +327,7 @@ export const labelList = (svg, data, fontSize) => {
         .selectAll("text")
         .data(pie(data), key)
         .join('text')
-        .attr("dy", ".35em")
+       // .attr("dy", ".35em")
         .attr("font-size", fontSize)
         .text((d) => d.data.label)
         .style("fill", (d) => d.data.color)
