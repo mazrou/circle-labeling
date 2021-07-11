@@ -5,6 +5,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
+import exportFromJSON from 'export-from-json'
 import * as d3 from 'd3';
 
 
@@ -17,11 +18,22 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PieContainer({ children }) {
+export default function PieContainer({ children , svg }) {
   const classes = useStyles();
+ 
   const downloadSvg = () => {
-    console.log('download')
-    // try to get children function
+    console.log(svg)
+   
+  
+    const fileName = 'try'
+    const exportType = exportFromJSON.types.html
+    
+    
+    /*  svgAsDataUri(svg.node(), {}, function (uri) {
+        console.log('uri', uri);
+      });*/
+    
+    exportFromJSON({ svg, fileName, exportType })
   }
   return (
     <Card className={classes.root}>

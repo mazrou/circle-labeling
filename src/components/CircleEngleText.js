@@ -4,7 +4,7 @@ import { displayPie, engleText } from '../utils/functions'
 import { useDataContext } from '../utils/dataContext'
 import { useFontSizeContext } from '../utils/fontSizeContext'
 
-export default function CircleEngleText(props) {
+export default function CircleEngleText({setValue}) {
 
     const { data } = useDataContext()
     const { fontSize } = useFontSizeContext()
@@ -12,9 +12,13 @@ export default function CircleEngleText(props) {
         (svg) => {
             displayPie(svg, data)
             engleText(svg, data, fontSize)
+           
+            setValue(svg)//._groups[0][0])
+            console.log(svg._groups[0][0])
         },
         [data, fontSize]
     );
+   // props.value = ref ;
     return (
         <svg
             ref={ref}

@@ -45,6 +45,7 @@ import randomizeData from "../utils/randomizeData"
 import SpliteModal from './SpliteModal';
 import FontSizeSlider from './FontSizeSlider'
 import exportFromJSON from 'export-from-json'
+import { engleText } from '../utils/functions';
 const drawerWidth = 240;
 
 function rand() {
@@ -234,6 +235,8 @@ export default function PersistentDrawerLeft() {
         exportFromJSON({ data, fileName, exportType })
 
     };
+
+    const [engleTextSvg , setTextSvg] = React.useState()
     return (
 
         <div className={classes.root}>
@@ -351,8 +354,8 @@ export default function PersistentDrawerLeft() {
 
                 <div className={classes.pieContainer}>
                     <div className={classes.content}>
-                        <PieContainer className={classes.content} >
-                            <CircleEngleText />
+                        <PieContainer className={classes.content} svg={engleTextSvg}>
+                            <CircleEngleText value={engleTextSvg} setValue={setTextSvg}/>
                         </PieContainer>
                     </div>
                     <div className={classes.content}>

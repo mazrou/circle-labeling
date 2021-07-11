@@ -62,7 +62,7 @@ export function mergeData(data, mergedData) {
         let bool = false
         mergedData.forEach(merged => {
     
-            if (item.id == merged.id) {
+            if (item.id === merged.id) {
                 bool = true;
             }
         })
