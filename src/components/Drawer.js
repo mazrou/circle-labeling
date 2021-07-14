@@ -45,7 +45,11 @@ import randomizeData from "../utils/randomizeData"
 import SpliteModal from './SpliteModal';
 import FontSizeSlider from './FontSizeSlider'
 import exportFromJSON from 'export-from-json'
+
 import { engleText } from '../utils/functions';
+
+import {removeOverlaps} from '../utils/removeOverlaps'
+
 const drawerWidth = 240;
 
 function rand() {
@@ -236,7 +240,15 @@ export default function PersistentDrawerLeft() {
 
     };
 
+
     const [engleTextSvg , setTextSvg] = React.useState()
+
+    const [doRemoveOverLaps , setDoRemoveOverLaps] = React.useState(false) ;
+    const removeOverLaps = ()=> {
+        removeOverlaps(labelSvg)
+    }
+    const [labelSvg , setLabelSvg ] = React.useState(null) 
+
     return (
 
         <div className={classes.root}>
@@ -283,12 +295,16 @@ export default function PersistentDrawerLeft() {
                 </div>
                 <Divider />
                 <List>
-                    {['Randomize slice weights', 'Zoom', 'Remove overlaps'].map((text, index) => (
+                    {['Randomize slice weights', 'Zoom'].map((text, index) => (
                         <ListItem button={true} key={text}>
                             <ListItemIcon></ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>
                     ))}
+                    <ListItem button={true} key={'Remove overlaps'} onClick={removeOverLaps}>
+                        <ListItemIcon><SvgIcon></SvgIcon></ListItemIcon>
+                        <ListItemText primary={'Remove overlaps'}/>
+                    </ListItem>
                     <ListItem button={true} key={'Randomize'} onClick={randData}>
                         <ListItemIcon><SvgIcon></SvgIcon></ListItemIcon>
                         <ListItemText primary={'Randomize'} />
@@ -360,12 +376,12 @@ export default function PersistentDrawerLeft() {
                     </div>
                     <div className={classes.content}>
                         <PieContainer className={classes.content} >
-                            <CircleLabelList />
+                            <CircleLabelList setSvg={setLabelSvg}  />
                         </PieContainer>
                     </div>
                     <div className={classes.content}>
                         <PieContainer className={classes.content}  >
-                            <CircleAlgo1 />
+                            <CircleAlgo1 doRemoveOverlap={doRemoveOverLaps} set ={setDoRemoveOverLaps} />
                         </PieContainer>
                     </div>
                     <div className={classes.content}>
