@@ -97,7 +97,6 @@ export const displayPie = (svg, data) => {
                         enter.transition()
                             .style("fill", (d) => {
                                 if (d.data.color == color) {
-                                    
                                     console.log("I'm a color")
                                     return color
                                 } else {
@@ -199,7 +198,7 @@ export let engleText = (svg, data, fontSize) => {
             console.log(enter)
             enter.append('text')
                 .attr("dy", ".35em")
-                .attr("font-size", fontSize)
+                .attr("font-size",(d) => d.data.fontSize + fontSize)
                 .text((d) => d.data.label)
                 .style("fill", (d) => d.data.color)
                 .attr("class", 'label')
@@ -229,7 +228,7 @@ export let engleText = (svg, data, fontSize) => {
             update => {
                 update
                     .attr("dy", ".35em")
-                    .attr("font-size", fontSize)
+                    .attr("font-size", (d) => d.data.fontSize + fontSize)
                     .attr("class", 'label')
                     .text((d) => d.data.label)
                     .style("fill", (d) => d.data.color)
@@ -291,7 +290,7 @@ export const textArround = (svg, data, fontSize) => {
             enter.append('text')
                 .attr("dy", "-13px")
                 .append("textPath")
-                .attr("font-size", fontSize)
+                .attr("font-size", (d) => d.data.fontSize + fontSize)
                 .attr("startOffset", "50%")
                 .attr("transform", "translate(" + -300 + "," + -300 + ")")
                 .style("text-anchor", "middle")
@@ -301,7 +300,7 @@ export const textArround = (svg, data, fontSize) => {
         }, update => {
             update.attr("dy", "-13px")
                 .select("textPath")
-                .attr("font-size", fontSize)
+                .attr("font-size", (d) => d.data.fontSize + fontSize)
                 .attr("startOffset", "50%")
                 .attr("transform", "translate(" + -300 + "," + -300 + ")")
                 .style("text-anchor", "middle")
@@ -328,7 +327,7 @@ export const labelList = (svg, data, fontSize) => {
         .data(pie(data), key)
         .join('text')
        // .attr("dy", ".35em")
-        .attr("font-size", fontSize)
+        .attr("font-size", (d) => d.data.fontSize + fontSize)
         .text((d) => d.data.label)
         .style("fill", (d) => d.data.color)
 
@@ -387,7 +386,7 @@ export const textAlgo1 = (svg, data, fontSize) => {
         .data(pie(data), key)
         .join('text')
         .attr("dy", ".35em")
-        .attr("font-size", fontSize)
+        .attr("font-size", (d) => d.data.fontSize + fontSize)
         .text((d) => d.data.label)
         .style("fill", 'none')
 
@@ -429,7 +428,7 @@ export const textAlgo2 = (svg, data, fontSize) => {
         .data(pie(data), key)
         .join('text')
         .attr("dy", ".35em")
-        .attr("font-size", fontSize)
+        .attr("font-size", (d) => d.data.fontSize + fontSize)
         .text((d) => d.data.label)
         .style("fill", 'none')
 

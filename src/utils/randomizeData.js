@@ -13,6 +13,7 @@ export default function randomizeData(size = 10) {
             id: i,
             label: text,
             value: Math.random(),
+            fontSize : 0 ,
             color: color(i), // change this to see better colors ,
             children: null
         }
@@ -77,6 +78,7 @@ export function mergeData(data, mergedData) {
         id: maxId + 1,
         label: sumIndex.label,
         value: sumIndex.value,
+        fontSize: 0 ,
         color: mergedData[0].color,
         children: mergedData
     }

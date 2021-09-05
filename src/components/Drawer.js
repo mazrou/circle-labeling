@@ -45,9 +45,7 @@ import randomizeData from "../utils/randomizeData"
 import SpliteModal from './SpliteModal';
 import FontSizeSlider from './FontSizeSlider'
 import exportFromJSON from 'export-from-json'
-
 import { engleText } from '../utils/functions';
-
 import {removeOverlaps} from '../utils/removeOverlaps'
 
 const drawerWidth = 240;

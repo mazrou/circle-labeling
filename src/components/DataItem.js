@@ -3,6 +3,7 @@ import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import FormatColorFillRoundedIcon from '@material-ui/icons/FormatColorFillRounded';
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 import { SketchPicker } from 'react-color';
+import MinusPlusInput from './MinusPlusInput'
 import {
     IconButton,
     Typography,
@@ -79,6 +80,7 @@ export default function DataItem({ item, index }) {
     const [color, setColor] = React.useState(item.color);
     const [isEditing, setEditing] = React.useState(false)
     const [inputText, setInputText] = React.useState(item.label)
+    const [fontSizeDiff, setFontSizeDiff] = React.useState(item.fontSize);
     const inputField = React.useRef(null)
 
 
@@ -110,6 +112,7 @@ export default function DataItem({ item, index }) {
             label: inputText,
             value: item.value,
             color: color,
+            fontSize: fontSizeDiff ,
             children: item.children
         })
     }
@@ -148,6 +151,17 @@ export default function DataItem({ item, index }) {
 
     let colorPointer
 
+    const handleChangeFontSize  =  (newFontSize) => {
+        setFontSizeDiff(newFontSize)
+
+        updateContext({
+            label: inputText,
+            value: item.value,
+            color: color,
+            fontSize: fontSizeDiff,
+            children: item.children
+        })
+    }
 
     if (isEditing) return (
         <Card className={classes.root} style={{ borderLeftColor: color }}>
@@ -196,6 +210,7 @@ export default function DataItem({ item, index }) {
                                     onChange={handleChangeColor} />
 
                             </IconButtonSmall>
+                            <MinusPlusInput initValue={fontSizeDiff} onChangeValue={handleChangeFontSize} />
                         </div>
                     } />
                 <CardContent className={classes.content}>
