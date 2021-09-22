@@ -4,6 +4,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import DeletItemsModal from './DeletItemsModal';
 import SaveAltOutlinedIcon from '@material-ui/icons/SaveAltOutlined';
 import AttachFileOutlinedIcon from '@material-ui/icons/AttachFileOutlined';
+import SplitLogo from './assets/split.svg';
+import MergeLogo from "./assets/merging.svg"
+import OverlapLogo from "./assets/overlap.svg"
+import CasinoOutlinedIcon from '@material-ui/icons/CasinoOutlined';
+
+import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
 import {
     ListItemIcon,
     ListItemText,
@@ -24,6 +30,8 @@ import {
     Modal,
     List,
     SvgIcon,
+    Icon,
+
     AppBar,
     CssBaseline
 } from '@material-ui/core';
@@ -300,30 +308,28 @@ export default function PersistentDrawerLeft() {
 
                 </div>
                 <Divider />
-                <List>
-                    {['Randomize slice weights', 'Zoom'].map((text, index) => (
-                        <ListItem button={true} key={text}>
-                            <ListItemIcon></ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
+                <List>           
+                    <ListItem button={true} key={'Zoom type'} onClick={removeOverLaps}>
+                        <ListItemIcon><ZoomInOutlinedIcon /></ListItemIcon>
+                        <ListItemText primary={'Zoom type'} />
+                    </ListItem>
                     <ListItem button={true} key={'Remove overlaps'} onClick={removeOverLaps}>
-                        <ListItemIcon><SvgIcon></SvgIcon></ListItemIcon>
+                        <ListItemIcon><Icon><img src={OverlapLogo}></img></Icon></ListItemIcon>
                         <ListItemText primary={'Remove overlaps'} />
                     </ListItem>
                     <ListItem button={true} key={'Randomize'} onClick={randData}>
-                        <ListItemIcon><SvgIcon></SvgIcon></ListItemIcon>
+                        <ListItemIcon><CasinoOutlinedIcon/></ListItemIcon>
                         <ListItemText primary={'Randomize'} />
                     </ListItem>
                 </List>
                 <Divider />
                 <List>
                     <ListItem button={true} key={'Merge'} onClick={handleModalOpen} >
-                        <ListItemIcon></ListItemIcon>
+                        <ListItemIcon><Icon><img src={MergeLogo}/></Icon></ListItemIcon>
                         <ListItemText primary={'Merge'} />
                     </ListItem>
                     <ListItem button={true} key={'Splite'} onClick={handleModalSpliteOpen} >
-                        <ListItemIcon></ListItemIcon>
+                        <ListItemIcon><Icon><img src={SplitLogo} /></Icon></ListItemIcon>
                         <ListItemText primary={'Splite'} />
                     </ListItem>
                 </List>
