@@ -93,7 +93,7 @@ export const displayPie = (svg, data) => {
                     .remove();
             }
         )
-
+/*
     svg.select(".slices")
         .selectAll("path.slice")
         .on('mouseover', function (d) {
@@ -189,7 +189,7 @@ export const displayPie = (svg, data) => {
                 )
 
 
-        })
+        }) */
 
     }
 

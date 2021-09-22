@@ -7,6 +7,7 @@ import AttachFileOutlinedIcon from '@material-ui/icons/AttachFileOutlined';
 import SplitLogo from './assets/split.svg';
 import MergeLogo from "./assets/merging.svg"
 import OverlapLogo from "./assets/overlap.svg"
+
 import CasinoOutlinedIcon from '@material-ui/icons/CasinoOutlined';
 
 import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
