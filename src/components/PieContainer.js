@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import exportFromJSON from 'export-from-json'
 import * as d3 from 'd3';
-
+import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
 
 const useStyles = makeStyles({
   root: {
@@ -32,8 +32,18 @@ export default function PieContainer({ children , svg }) {
     /*  svgAsDataUri(svg.node(), {}, function (uri) {
         console.log('uri', uri);
       });*/
-    
-    exportFromJSON({ svg, fileName, exportType })
+   
+    // exportFromJSON({ svg, fileName, exportType })
+      const element = document.createElement("a")
+      svg.node().setAttribute("xmlns", "http://www.w3.org/2000/svg")
+    svg.node().setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
+      var preface = '<?xml version="1.0" standalone="no"?>\r\n'
+      const file = new Blob([preface, svg.node().outerHTML],
+        { type: "image/svg+xml;charset=utf-8" })
+      element.href = URL.createObjectURL(file)
+      element.download = "CircleVis-SVG.svg"
+      document.body.appendChild(element)
+      element.click()
   }
   return (
     <Card className={classes.root}>
@@ -43,10 +53,15 @@ export default function PieContainer({ children , svg }) {
         </div>
       </CardContent>
       <CardActions>
+      
+        
         <Button size="small" color="primary" onClick={downloadSvg} >
           Download
         </Button>
+
+        <ZoomInOutlinedIcon color="primary" />
       </CardActions>
+
     </Card>
   );
 }

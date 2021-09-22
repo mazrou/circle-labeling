@@ -4,7 +4,7 @@ import { displayPie, textArround } from '../utils/functions'
 import { useDataContext } from '../utils/dataContext'
 import { useFontSizeContext } from '../utils/fontSizeContext'
 
-export default function CirclerAroundText(props) {
+export default function CirclerAroundText({setSvg}) {
 
     const { data } = useDataContext()
     const { fontSize } = useFontSizeContext()
@@ -12,6 +12,7 @@ export default function CirclerAroundText(props) {
         (svg) => {
             displayPie(svg, data)
             textArround(svg, data, fontSize)
+            setSvg(svg)
         },
         [data, fontSize]
     );

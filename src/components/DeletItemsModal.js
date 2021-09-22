@@ -21,6 +21,7 @@ import Draggable from 'react-draggable';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDataContext } from '../utils/dataContext' 
 import { normilizeData } from '../utils/randomizeData';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 const useStyles = makeStyles((theme) => ({
     inputContainer: {
         display: 'flex',
@@ -91,7 +92,7 @@ export default function DeletItemsModal() {
         <div>
 
             <ListItem button={true} key={'Delete Items'} onClick={handleClickOpen} >
-                <ListItemIcon></ListItemIcon>
+                <ListItemIcon><DeleteOutlineIcon/></ListItemIcon>
                 <a href="try.json" download></a>
                 <ListItemText primary={'Delete Items'} />
             </ListItem>

@@ -2,7 +2,8 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import DeletItemsModal from './DeletItemsModal';
- 
+import SaveAltOutlinedIcon from '@material-ui/icons/SaveAltOutlined';
+import AttachFileOutlinedIcon from '@material-ui/icons/AttachFileOutlined';
 import {
     ListItemIcon,
     ListItemText,
@@ -46,7 +47,7 @@ import SpliteModal from './SpliteModal';
 import FontSizeSlider from './FontSizeSlider'
 import exportFromJSON from 'export-from-json'
 import { engleText } from '../utils/functions';
-import {removeOverlaps} from '../utils/removeOverlaps'
+import { removeOverlaps } from '../utils/removeOverlaps'
 
 const drawerWidth = 240;
 
@@ -230,7 +231,7 @@ export default function PersistentDrawerLeft() {
     };
     const saveDataToJsonFile = () => {
         // `current` points to the mounted file input element
-         
+
         const fileName = 'data'
         const exportType = exportFromJSON.types.json
 
@@ -239,13 +240,20 @@ export default function PersistentDrawerLeft() {
     };
 
 
-    const [engleTextSvg , setTextSvg] = React.useState()
+    const [engleTextSvg, setTextSvg] = React.useState()
 
-    const [doRemoveOverLaps , setDoRemoveOverLaps] = React.useState(false) ;
-    const removeOverLaps = ()=> {
+    const [doRemoveOverLaps, setDoRemoveOverLaps] = React.useState(false);
+    const removeOverLaps = () => {
         removeOverlaps(labelSvg)
     }
-    const [labelSvg , setLabelSvg ] = React.useState(null) 
+    const [labelSvg, setLabelSvg] = React.useState(null)
+
+    const [algo1Svg, setAlgo1Svg] = React.useState(null)
+
+    const [roundedSvg, setRoundedSvg] = React.useState(null)
+
+    const [algo2Svg, setAlgo2Svg] = React.useState(null)
+
 
     return (
 
@@ -301,7 +309,7 @@ export default function PersistentDrawerLeft() {
                     ))}
                     <ListItem button={true} key={'Remove overlaps'} onClick={removeOverLaps}>
                         <ListItemIcon><SvgIcon></SvgIcon></ListItemIcon>
-                        <ListItemText primary={'Remove overlaps'}/>
+                        <ListItemText primary={'Remove overlaps'} />
                     </ListItem>
                     <ListItem button={true} key={'Randomize'} onClick={randData}>
                         <ListItemIcon><SvgIcon></SvgIcon></ListItemIcon>
@@ -327,11 +335,11 @@ export default function PersistentDrawerLeft() {
                 <Divider />
                 <List>
                     <ListItem button={true} key={'Import Data'} onClick={openFileBorwser} >
-                        <ListItemIcon></ListItemIcon>
+                        <ListItemIcon><AttachFileOutlinedIcon /></ListItemIcon>
                         <ListItemText primary={'Import Data'} />
                     </ListItem>
                     <ListItem button={true} key={'Save Data'} onClick={saveDataToJsonFile} >
-                        <ListItemIcon></ListItemIcon>
+                        <ListItemIcon><SaveAltOutlinedIcon /></ListItemIcon>
                         <a href="try.json" download></a>
                         <ListItemText primary={'Save Data'} />
                     </ListItem>
@@ -361,7 +369,7 @@ export default function PersistentDrawerLeft() {
                         <DataList />
                     </div>
                 </div>
-                
+
                 <div className={classes.updateDataSection}>
                     <FontSizeSlider />
                 </div>
@@ -369,27 +377,27 @@ export default function PersistentDrawerLeft() {
                 <div className={classes.pieContainer}>
                     <div className={classes.content}>
                         <PieContainer className={classes.content} svg={engleTextSvg}>
-                            <CircleEngleText value={engleTextSvg} setValue={setTextSvg}/>
+                            <CircleEngleText value={engleTextSvg} setValue={setTextSvg} />
                         </PieContainer>
                     </div>
                     <div className={classes.content}>
-                        <PieContainer className={classes.content} >
-                            <CircleLabelList setSvg={setLabelSvg}  />
+                        <PieContainer className={classes.content} svg={labelSvg} >
+                            <CircleLabelList setSvg={setLabelSvg} />
                         </PieContainer>
                     </div>
                     <div className={classes.content}>
-                        <PieContainer className={classes.content}  >
-                            <CircleAlgo1 doRemoveOverlap={doRemoveOverLaps} set ={setDoRemoveOverLaps} />
+                        <PieContainer className={classes.content} svg={algo1Svg}  >
+                            <CircleAlgo1 setSvg={setAlgo1Svg} doRemoveOverlap={doRemoveOverLaps} set={setDoRemoveOverLaps} />
                         </PieContainer>
                     </div>
                     <div className={classes.content}>
-                        <PieContainer className={classes.content}>
-                            <CirlceAlgo2 />
+                        <PieContainer className={classes.content} svg={algo2Svg}>
+                            <CirlceAlgo2 setSvg={setAlgo2Svg} />
                         </PieContainer>
                     </div>
                     <div className={classes.content}>
-                        <PieContainer className={classes.content} >
-                            <CirclerAroundText />
+                        <PieContainer className={classes.content} svg={roundedSvg} >
+                            <CirclerAroundText setSvg={setRoundedSvg}/>
                         </PieContainer>
                     </div>
                 </div>

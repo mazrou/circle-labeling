@@ -5,7 +5,7 @@ import { useDataContext } from '../utils/dataContext'
 import { useFontSizeContext } from '../utils/fontSizeContext'
 import {removeOverlaps} from '../utils/removeOverlaps'
 
-export default function CircleAlgo1({doRemoveOverlap , set}) {
+export default function CircleAlgo1({ doRemoveOverlap, set, setSvg}) {
     const { data } = useDataContext()
     const { fontSize } = useFontSizeContext()
     const ref = useD3(
@@ -17,6 +17,7 @@ export default function CircleAlgo1({doRemoveOverlap , set}) {
                 removeOverlaps(svg)
                 set(false)
             }
+            setSvg(svg)
         },
         [data, fontSize ,doRemoveOverlap]
     );
