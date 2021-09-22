@@ -14,7 +14,7 @@ export default function MinusPlusInput({ onChangeValue, initValue}) {
     };
 
    const handleDecrement = () => {
-        setCounter(counter - 1)
+       setCounter(parseInt(counter) - 1)
         onChangeValue(counter)
     };
    const handleChange = (event) => {

@@ -1,4 +1,5 @@
 //import {fontSize} from './functions'
+import * as d3 from 'd3';
 export function Algo2(Texts, arcs, circle, svgc, data, fontSize) {
     // text are instances of textes in svg // create defaults ones
     // arcs [[x,y],[x,y], middles] // start cos, sin / calculate engle
@@ -93,6 +94,13 @@ Algo2.prototype.GetDistCircle = function (middle, Ds, w) {
 
 }
 
+const pie = d3.pie()
+    .sort(null)
+    .value((d) => d.value)
+
+const key = (d) => d.data.id;
+
+
 Algo2.prototype.main = function () {
     var ResRectangles = [];
     var texts = this.Texts;
@@ -144,17 +152,30 @@ Algo2.prototype.DrawRectangle = function (rects, titArc, TitaNorm) {
         newxx = newx - (w / 2);
         var newy = cor[1] - (h / 2);
         //console.log("fon size", font_size);
+
+      /*  this.svg.select(".labels")
+            .selectAll("text")
+            .data(pie(this.data), key)
+            .join('text')
+            .attr("x", newx)
+            .attr("y", cor[1])
+            .text(eleText.label)
+            .attr("font-size", this.fontSize)
+            .style("text-anchor", "middle")
+           // .attr("transform", "translate(" + 300 + "," + 300 + ")")
+            .style("fill", colorText)
+            .style("dominant-baseline", "central");*/
+
         this.svg.append("text")
             .attr("x", newx)
             .attr("y", cor[1])
-            .attr("class", "algo2")
+            .attr("class", "labels")
             .text(eleText.label)
             .attr("font-size", this.fontSize )
             .style("text-anchor", "middle")
             .attr("transform", "translate(" + 300 + "," + 300 + ")")
             .style("fill", colorText)
-            .style("dominant-baseline", "central");
-
+            .style("dominant-baseline", "central"); 
     }
 
 }

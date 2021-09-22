@@ -4,7 +4,7 @@ export function StransitionText(Texts, arcs, circle, svgc, data, fontSize) {
     this.Circle = circle;
     this.svg = svgc
     this.data = data;
-    this.fontSize = fontSize
+    this.fontSize = fontSize  
 }
 
 StransitionText.prototype.get_D_rectangle = function (i) {
@@ -73,6 +73,7 @@ StransitionText.prototype.DrawRectangle = function (rects, titArc) {
         var mid = titArc[i][2].middle;
         var eleText = this.data[i];
         var colorText = this.data[i].color;
+        var fontSizeDiff = this.data[i].fontSize
         var elem = rects[i];
         var cor = elem[0];
         var dists = elem[1];
@@ -94,6 +95,7 @@ StransitionText.prototype.DrawRectangle = function (rects, titArc) {
             .attr("fill", "green");
     */
 
+        console.log(eleText.label + " : " + parseInt(this.fontSize) + parseInt(fontSizeDiff))
 
         this.svg.append("text")
             .attr("x", cor[0])
@@ -102,7 +104,8 @@ StransitionText.prototype.DrawRectangle = function (rects, titArc) {
             .text(eleText.label)
             .attr("transform", "translate(" + 300 + "," + 300 + ")")
             .style("text-anchor", "middle")
-            .style("fill", colorText).style("font-size", this.fontSize)
+            .style("fill", colorText)
+            .style("font-size", parseInt(this.fontSize) +  parseInt(fontSizeDiff))
             .style("dominant-baseline", "central");
 
     }

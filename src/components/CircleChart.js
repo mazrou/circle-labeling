@@ -8,7 +8,10 @@ function CircleChart(props) {
 
     const ref = useD3(
         (svg) => {
-
+            svg.call(d3.zoom().on("zoom", function () {
+                 console.log("I'm zooming")
+                svg.attr("transform", d3.event.transform)
+             }))
             displayPie(svg, value)
             //textArround(svg , value)
             //engleText(svg, value)

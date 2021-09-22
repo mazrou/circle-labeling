@@ -19,10 +19,21 @@ const arc = d3.arc()
     .innerRadius(radius * 0.5);
 
 
+const calculateArc = (radius) => {
+   return d3.arc()
+    .outerRadius(radius * 0.8)
+    .innerRadius(radius * 0.5); }
 
 const outerArc = d3.arc()
     .innerRadius(radius * 0.9)
     .outerRadius(radius * 0.9);
+
+
+const calculateOuterArc = (radius) => {
+   return d3.arc()
+    .innerRadius(radius * 0.9)
+    .outerRadius(radius * 0.9);
+}
 
 export const midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2
 
@@ -35,13 +46,15 @@ export const midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2
 export const displayPie = (svg, data) => {
 
 
-    svg.call(d3.zoom().on("zoom", function (e) {
+    /*svg.call(d3.zoom().on("zoom", function (e) {
         svg.attr("transform", "translate(" + e.translate + ")scale(" + e.scale + ")");
     }))
         .append("g").call(d3.drag()
             .on("drag", function (d, i) {
                 d3.select(this).attr("transform", "translate(" + (this.x = d.x) + "," + (this.y = d.y) + ")");
-            }));
+            })); */
+
+   
     svg
         .attr("width", "100%")
         .attr("height", 600)
@@ -106,7 +119,7 @@ export const displayPie = (svg, data) => {
                     },
                     update => {
                         update
-                            .transition()
+                            .transition() 
                             .style("fill", (d) => {
                                 if (d.data.color == color) {
                                     return color
@@ -133,7 +146,7 @@ export const displayPie = (svg, data) => {
                 .join(
                     enter => {
                         enter.append('path')
-                            .attr("d", arc)
+                            .attr("d", calculateArc(radius))
                             // .style("fill-opacity", 0)
                             .style("fill", (d) => d.data.color)
                             .attr("class", "slice")
@@ -185,7 +198,16 @@ export const displayPie = (svg, data) => {
     2- The svg must have a child element <g> with class "label"
     3- The data object is an array of {label : string , value : double}
 */
-export let engleText = (svg, data, fontSize) => {
+export let engleText = (svg, data, fontSize, innerRadius = radius) => {
+   // let raduisS  ;
+  
+    svg.call(d3.zoom().on("zoom", (event) => {
+        console.log("I'm zooming")
+        //svg.attr("transform", event.transform)
+        let innerRadius = radius * (event.transform.k); // d3.event.scale in V3
+        console.log({ event })
+        engleText(svg, data, 19, innerRadius);
+    }))
 
     svg
         .select(".labels")
@@ -209,7 +231,7 @@ export let engleText = (svg, data, fontSize) => {
                     e[i]._current = interpolate(0);
                     return (t) => {
                         let d2 = interpolate(t);
-                        let pos = [radius * Math.cos(midAngle(d2) - Math.PI / 2), radius * Math.sin(midAngle(d2) - Math.PI / 2)]
+                        let pos = [innerRadius * Math.cos(midAngle(d2) - Math.PI / 2), innerRadius * Math.sin(midAngle(d2) - Math.PI / 2)]
                         if (midAngle(d2) < Math.PI) {
                             return "translate(" + pos + ") rotate(" + (midAngle(d2) * 180 / Math.PI - 90) + ")";
                         }
@@ -239,7 +261,7 @@ export let engleText = (svg, data, fontSize) => {
                         e[i]._current = interpolate(0);
                         return (t) => {
                             let d2 = interpolate(t);
-                            let pos = [radius * Math.cos(midAngle(d2) - Math.PI / 2), radius * Math.sin(midAngle(d2) - Math.PI / 2)]
+                            let pos = [innerRadius * Math.cos(midAngle(d2) - Math.PI / 2), innerRadius * Math.sin(midAngle(d2) - Math.PI / 2)]
                             if (midAngle(d2) < Math.PI) {
                                 return "translate(" + pos + ") rotate(" + (midAngle(d2) * 180 / Math.PI - 90) + ")";
                             }
@@ -265,8 +287,16 @@ export let engleText = (svg, data, fontSize) => {
 
 }
 
-export const textArround = (svg, data, fontSize) => {
+export const textArround = (svg, data, fontSize, innerRadius = radius) => {
     //  svg.select(".labels").remove()
+    svg.call(d3.zoom().on("zoom", (event) => {
+        console.log("I'm zooming")
+        //svg.attr("transform", event.transform)
+        let innerRadius = radius * (event.transform.k); // d3.event.scale in V3
+        console.log({ event })
+        textArround(svg, data, 19, innerRadius);
+    }))
+
     svg
         .select(".slices")
         .selectAll('.slice')
@@ -315,7 +345,17 @@ export const textArround = (svg, data, fontSize) => {
 
 }
 
-export const labelList = (svg, data, fontSize) => {
+export const labelList = (svg, data, fontSize, innerRadius = radius) => {
+
+    svg.call(d3.zoom().on("zoom", (event) => {
+        console.log("I'm zooming")
+        //svg.attr("transform", event.transform)
+        let innerRadius = radius * (event.transform.k); // d3.event.scale in V3
+        console.log({ event })
+        labelList(svg, data, 19, innerRadius);
+    }))
+    
+
     svg.select(".labels").selectAll("text").remove()
     svg.select(".lines").selectAll("polyline").remove()
     svg
@@ -338,8 +378,8 @@ export const labelList = (svg, data, fontSize) => {
             e[i]._current = interpolate(0);
             return (t) => {
                 let d2 = interpolate(t);
-                let pos = outerArc.centroid(d2);
-                pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
+                let pos = calculateOuterArc(innerRadius).centroid(d2);
+                pos[0] = innerRadius * (midAngle(d2) < Math.PI ? 1 : -1);
                 return "translate(" + pos + ")"
             };
         })
@@ -364,9 +404,9 @@ export const labelList = (svg, data, fontSize) => {
         .join("polyline")
         .attr("points", (d) => {
             const d2 = d;
-            let pos = outerArc.centroid(d2);
-            pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
-            return [arc.centroid(d2), outerArc.centroid(d2), pos];
+            let pos = calculateOuterArc(innerRadius).centroid(d2);
+            pos[0] = innerRadius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
+            return [calculateArc(innerRadius).centroid(d2), calculateOuterArc(innerRadius).centroid(d2), pos];
         }).
         style("fill", 'none')
         .style("stroke", d => d.data.color)
@@ -386,7 +426,7 @@ export const textAlgo1 = (svg, data, fontSize) => {
         .data(pie(data), key)
         .join('text')
         .attr("dy", ".35em")
-        .attr("font-size", (d) => d.data.fontSize + fontSize)
+        .attr("font-size", (d) => parseInt(d.data.fontSize) + parseInt(fontSize))
         .text((d) => d.data.label)
         .style("fill", 'none')
 
