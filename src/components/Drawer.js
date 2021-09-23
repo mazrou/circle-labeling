@@ -8,6 +8,8 @@ import SplitLogo from './assets/split.svg';
 import MergeLogo from "./assets/merging.svg"
 import OverlapLogo from "./assets/overlap.svg"
 
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import CasinoOutlinedIcon from '@material-ui/icons/CasinoOutlined';
 
 import ZoomInOutlinedIcon from '@material-ui/icons/ZoomInOutlined';
@@ -28,9 +30,12 @@ import {
     Toolbar,
     Button,
     Fab,
+    RadioGroup,
+    Radio ,
     Modal,
     List,
     SvgIcon,
+    Collapse, 
     Icon,
 
     AppBar,
@@ -179,9 +184,13 @@ export default function PersistentDrawerLeft() {
     const [open, setOpen] = React.useState(false);
     const [openModal, setOpenModal] = React.useState(false);
     const [openModalSplite, setOpenModalSplite] = React.useState(false);
-
+    const [openZoomType , setOpenZoomType] =  React.useState(false)
     const randData = () => {
         addData(randomizeData())
+    }
+
+    const  handleOpenZoomType = () => {
+        setOpenZoomType(!openZoomType)
     }
 
     const handleDrawerOpen = () => {
@@ -298,7 +307,7 @@ export default function PersistentDrawerLeft() {
             </AppBar>
             <Drawer
                 className={classes.drawer}
-                variant="persistent"
+                variant="permanent"
                 anchor="left"
                 open={open}
                 classes={{
@@ -309,24 +318,52 @@ export default function PersistentDrawerLeft() {
 
                 </div>
                 <Divider />
-                <List>           
-                    <ListItem button={true} key={'Zoom type'} onClick={removeOverLaps}>
+                <List>
+                 
+                    <ListItem button={true} key={'Zoom type'} onClick={handleOpenZoomType}>
                         <ListItemIcon><ZoomInOutlinedIcon /></ListItemIcon>
                         <ListItemText primary={'Zoom type'} />
+                        {openZoomType ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
+                    <Collapse in={openZoomType} timeout="auto" unmountOnExit>
+            {/* <List component="div" disablePadding>
+                             /*<ListItem sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                </ListItemIcon>
+                                <ListItemText primary="Semantics" />
+                            </ListItem>
+                            <ListItem sx={{ pl: 4 }}>
+                                <ListItemIcon>
+
+                                </ListItemIcon>
+                                <ListItemText primary="Geometric" />
+                            </ListItem> 
+            </List> */}
+                        <FormControl component="fieldset">
+                            <RadioGroup
+                                
+                                defaultValue="semantics"
+                                name="radio-buttons-group"
+                            >
+                                <FormControlLabel value="semantics" control={<Radio />} label="Semantics" />
+                                <FormControlLabel value="geometric" control={<Radio />} label="Geometric" />
+                              
+                            </RadioGroup>
+                        </FormControl>
+                    </Collapse>
                     <ListItem button={true} key={'Remove overlaps'} onClick={removeOverLaps}>
                         <ListItemIcon><Icon><img src={OverlapLogo}></img></Icon></ListItemIcon>
                         <ListItemText primary={'Remove overlaps'} />
                     </ListItem>
                     <ListItem button={true} key={'Randomize'} onClick={randData}>
-                        <ListItemIcon><CasinoOutlinedIcon/></ListItemIcon>
+                        <ListItemIcon><CasinoOutlinedIcon /></ListItemIcon>
                         <ListItemText primary={'Randomize'} />
                     </ListItem>
                 </List>
                 <Divider />
                 <List>
                     <ListItem button={true} key={'Merge'} onClick={handleModalOpen} >
-                        <ListItemIcon><Icon><img src={MergeLogo}/></Icon></ListItemIcon>
+                        <ListItemIcon><Icon><img src={MergeLogo} /></Icon></ListItemIcon>
                         <ListItemText primary={'Merge'} />
                     </ListItem>
                     <ListItem button={true} key={'Splite'} onClick={handleModalSpliteOpen} >
@@ -404,7 +441,7 @@ export default function PersistentDrawerLeft() {
                     </div>
                     <div className={classes.content}>
                         <PieContainer className={classes.content} svg={roundedSvg} >
-                            <CirclerAroundText setSvg={setRoundedSvg}/>
+                            <CirclerAroundText setSvg={setRoundedSvg} />
                         </PieContainer>
                     </div>
                 </div>
