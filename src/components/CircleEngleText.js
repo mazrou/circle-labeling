@@ -13,16 +13,22 @@ export default function CircleEngleText({setValue}) {
 
     const { data } = useDataContext()
     const { fontSize } = useFontSizeContext()
+    const [zoom, setZoom] = React.useState(1) 
     const ref = useD3(
         (svg) => {
           
-            displayPie(svg, data)
-            engleText(svg, data, fontSize)
+            displayPie(svg, data, zoom)
+            engleText(svg, data, fontSize, zoom)
            
+            svg.call(d3.zoom().on("zoom", (event) => {
+                console.log("I'm zooming")
+                //svg.attr("transform", event.transform)
+                setZoom(event.transform.k)// d3.event.scale in V3
+            }))
             setValue(svg)//._groups[0][0])
             console.log(svg._groups[0][0])
         },
-        [data, fontSize]
+        [data, fontSize, zoom]
     );
    // props.value = ref ;
     return (

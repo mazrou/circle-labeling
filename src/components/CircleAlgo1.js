@@ -1,4 +1,5 @@
 import React from 'react';
+import * as d3 from 'd3';
 import { useD3 } from '../hooks/useD3';
 import { displayPie, textAlgo1 } from '../utils/functions'
 import { useDataContext } from '../utils/dataContext'
@@ -8,18 +9,25 @@ import {removeOverlaps} from '../utils/removeOverlaps'
 export default function CircleAlgo1({ doRemoveOverlap, set, setSvg}) {
     const { data } = useDataContext()
     const { fontSize } = useFontSizeContext()
+
+    const [zoom, setZoom] = React.useState(1) 
     const ref = useD3(
         (svg) => {
-            displayPie(svg, data)
-            textAlgo1(svg, data, fontSize)
+            displayPie(svg, data, zoom)
+            textAlgo1(svg, data, fontSize, zoom)
 
             if(doRemoveOverlap){
                 removeOverlaps(svg)
                 set(false)
             }
+            svg.call(d3.zoom().on("zoom", (event) => {
+                console.log("I'm zooming")
+                //svg.attr("transform", event.transform)
+                setZoom(event.transform.k)// d3.event.scale in V3
+            }))
             setSvg(svg)
         },
-        [data, fontSize ,doRemoveOverlap]
+        [data, fontSize, doRemoveOverlap, zoom]
     );
     return (
         <svg

@@ -43,7 +43,7 @@ export const midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2
     2- The svg must have a child element <g> with class "slices"
     3- The data object is an array of {label : string , value : double}
 */
-export const displayPie = (svg, data) => {
+export const displayPie = (svg, data, zoom) => {
 
 
     /*svg.call(d3.zoom().on("zoom", function (e) {
@@ -54,7 +54,7 @@ export const displayPie = (svg, data) => {
                 d3.select(this).attr("transform", "translate(" + (this.x = d.x) + "," + (this.y = d.y) + ")");
             })); */
 
-   
+    let innerRaduis = radius * zoom
     svg
         .attr("width", "100%")
         .attr("height", 600)
@@ -74,7 +74,7 @@ export const displayPie = (svg, data) => {
         .join(
             enter => {
                 enter.append('path')
-                    .attr("d", arc)
+                    .attr("d", calculateArc(innerRaduis))
                     //  .style("fill-opacity", 0)
                     .style("fill", (d) => d.data.color)
                     .attr("class", "slice")
@@ -83,7 +83,7 @@ export const displayPie = (svg, data) => {
                     .style("fill-opacity", 1)
             },
             update => {
-                update.attr("d", arc)
+                update.attr("d", calculateArc(innerRaduis))
                     .style("fill", (d) => d.data.color)
                     .attr("class", "slice")
             },
@@ -198,16 +198,11 @@ export const displayPie = (svg, data) => {
     2- The svg must have a child element <g> with class "label"
     3- The data object is an array of {label : string , value : double}
 */
-export let engleText = (svg, data, fontSize, innerRadius = radius) => {
+export let engleText = (svg, data, fontSize, zoom) => {
    // let raduisS  ;
   
-    svg.call(d3.zoom().on("zoom", (event) => {
-        console.log("I'm zooming")
-        //svg.attr("transform", event.transform)
-        let innerRadius = radius * (event.transform.k); // d3.event.scale in V3
-        console.log({ event })
-        engleText(svg, data, 19, innerRadius);
-    }))
+    let innerRadius = radius * zoom
+   
 
     svg
         .select(".labels")
@@ -287,15 +282,13 @@ export let engleText = (svg, data, fontSize, innerRadius = radius) => {
 
 }
 
-export const textArround = (svg, data, fontSize, innerRadius = radius) => {
+export  function textArround (svg, data, fontSize, zoom)  {
+
+    svg.select(".labels").selectAll("text").remove();
+    svg.selectAll(".hiddenDonutArcs").remove();
     //  svg.select(".labels").remove()
-    svg.call(d3.zoom().on("zoom", (event) => {
-        console.log("I'm zooming")
-        //svg.attr("transform", event.transform)
-        let innerRadius = radius * (event.transform.k); // d3.event.scale in V3
-        console.log({ event })
-        textArround(svg, data, 19, innerRadius);
-    }))
+    
+    let innerRaduis = radius * zoom
 
     svg
         .select(".slices")
@@ -328,15 +321,15 @@ export const textArround = (svg, data, fontSize, innerRadius = radius) => {
                 .text((d) => d.data.label)
                 .style("fill", (d) => d.data.color)
         }, update => {
-            update.attr("dy", "-13px")
-                .select("textPath")
-                .attr("font-size", (d) => d.data.fontSize + fontSize)
-                .attr("startOffset", "50%")
-                .attr("transform", "translate(" + -300 + "," + -300 + ")")
-                .style("text-anchor", "middle")
-                .attr("xlink:href", (d, i) => "#donutArc" + i)
-                .text((d) => d.data.label)
-                .style("fill", (d) => d.data.color)
+                update.attr("dy", "-13px")
+                    .select("textPath")
+                    .attr("font-size", (d) => d.data.fontSize + fontSize)
+                    .attr("startOffset", "50%")
+                    .attr("transform", "translate(" + -300 + "," + -300 + ")")
+                    .style("text-anchor", "middle")
+                    .attr("xlink:href", (d, i) => "#donutArc" + i)
+                    .text((d) => d.data.label)
+                    .style("fill", (d) => d.data.color)
         },
             remove => {
                 remove.remove()
@@ -345,17 +338,9 @@ export const textArround = (svg, data, fontSize, innerRadius = radius) => {
 
 }
 
-export const labelList = (svg, data, fontSize, innerRadius = radius) => {
-
-    svg.call(d3.zoom().on("zoom", (event) => {
-        console.log("I'm zooming")
-        //svg.attr("transform", event.transform)
-        let innerRadius = radius * (event.transform.k); // d3.event.scale in V3
-        console.log({ event })
-        labelList(svg, data, 19, innerRadius);
-    }))
-    
-
+export const labelList = (svg, data, fontSize, zoom) => {
+    let innerRadius = radius * zoom
+   
     svg.select(".labels").selectAll("text").remove()
     svg.select(".lines").selectAll("polyline").remove()
     svg
@@ -412,7 +397,9 @@ export const labelList = (svg, data, fontSize, innerRadius = radius) => {
         .style("stroke", d => d.data.color)
 }
 
-export const textAlgo1 = (svg, data, fontSize) => {
+export const textAlgo1 = (svg, data, fontSize, zoom ) => {
+
+    let innerRadius = radius * zoom
     svg.selectAll(".algo1").remove()
     svg.select(".labels")
         .selectAll("text").remove()
@@ -430,7 +417,7 @@ export const textAlgo1 = (svg, data, fontSize) => {
         .text((d) => d.data.label)
         .style("fill", 'none')
 
-    const outer = radius * 0.9;
+    const outer = innerRadius * 0.9;
     const sliceList = [];
     const co = data.length;
 
@@ -455,7 +442,11 @@ export const textAlgo1 = (svg, data, fontSize) => {
     }
 }
 
-export const textAlgo2 = (svg, data, fontSize) => {
+export const textAlgo2 = (svg, data, fontSize, zoom) => {
+
+
+    let innerRadius = radius * zoom
+  
     // svg.selectAll(".algo2").remove()
     svg.selectAll("text").remove();
     // svg.select(".slices").selectAll("path.slice").remove();
@@ -472,7 +463,7 @@ export const textAlgo2 = (svg, data, fontSize) => {
         .text((d) => d.data.label)
         .style("fill", 'none')
 
-    const outer = radius * 0.9;
+    const outer = innerRadius * 0.9;
     const sliceList = [];
     const co = data.length;
 
